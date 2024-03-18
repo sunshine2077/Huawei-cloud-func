@@ -38,7 +38,7 @@ def chatgpt_api(request_dict: dict):
         openai_method=request_header["x-openai-method"]
         openai_url=request_header["x-openai-url"]
         openai_headers={
-            "Content-Type": "application/json",
+            "Content-Type": "Application/json",
             "Authorization": f"Bearer {request_header['x-openai-key']}"
         }
         openai_body=request_body
@@ -46,13 +46,13 @@ def chatgpt_api(request_dict: dict):
         if openai_method=="get":
             response = requests.get(openai_url, headers=openai_headers)
         else:
-            response = requests.post(openai_url, headers=openai_headers, data=openai_body)
+            response = requests.post(openai_url, headers=openai_headers, json=openai_body)
         # step4. get result of the request
         if response.ok:
             return {
                 "code": MSG_SUCCESS,
                 "msg": "ok",
-                "data": response.text
+                "data": json.loads(response.text)
             }
         else:
             response.raise_for_status()
